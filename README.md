@@ -160,7 +160,7 @@ Overall, the code snippet demonstrates a straightforward way to encode categoric
 
 #### New feature pre_contact from pdays
 
-By analyzing the distribution of the 'pdays' feature, which represents the number of days since the client was last contacted from a previous campaign. The percentage of clients not contacted prior to the current campaign is calculated and displayed, showing that approximately 96.32% of clients fall into this category. The subsequent plot visually illustrates this, with the count of clients having 'pdays' equal to 999 being significantly higher than all other unique values combined. Recognizing the imbalance and the limited insight provided by the actual number of days, a decision is made to transform the feature. A new binary feature called 'pre_contact' is created, indicating whether a client has been previously contacted or not. The original 'pdays' feature is then dropped from the dataset to streamline it. This transformation simplifies the representation of contact history, focusing on the presence or absence of previous contact rather than specific time intervals, which may not provide significant predictive value due to the dominance of '999' values.
+By analyzing the distribution of the 'pdays' feature, which represents the number of days since the client was last contacted from a previous campaign. The percentage of clients not contacted prior to the current campaign is calculated and displayed, showing that approximately 96.32% of clients fall into this category. The plot below visually illustrates this, with the count of clients having 'pdays' equal to 999 being significantly higher than all other unique values combined. Recognizing the imbalance and the limited insight provided by the actual number of days, a decision is made to transform the feature. A new binary feature called 'pre_contact' is created, indicating whether a client has been previously contacted or not. The original 'pdays' feature is then dropped from the dataset to streamline it. This transformation simplifies the representation of contact history, focusing on the presence or absence of previous contact rather than specific time intervals, which may not provide significant predictive value due to the dominance of '999' values.
 
 ![pdays distribution](./data/Images/pdays%20distribution.png)
 
@@ -168,3 +168,42 @@ From the plot above, it is clear that the value '999' in pdays attribute is sign
 
 A new feature 'pre_contact' will be created from 'pday' and then 'pdays' will be dropped.
 
+#### Remove Extreme outlier for Numerical Features
+
+- Identifying outliers by using boxplots 
+
+![boxplot for num feat](./data/Images/boxplot%20num%20feat.png)
+
+Here, we're dealing with a dataset where some numerical attributes might have extreme values, which can affect the performance of our analysis or models. So, we're checking for those extreme values and doing some adjustments.
+
+First, we looked at the number of contacts made with the client before this campaign ('previous' feature). We noticed that there are very few instances where the number of contacts is 5 or more. Since these instances are quite rare, we grouped them together as "four or more" to simplify things.
+
+Then, we had a feature called 'duration' which tells us how long the last contact lasted. But this information isn't available before making the call, so we decided to drop this feature from our analysis.
+
+Finally, we looked at the number of contacts made during this campaign ('campaign' feature). We found that there are some instances where a large number of contacts were made, which might not be typical. So, we decided to cap the maximum number of contacts at 12, treating anything above that as "12 or more" contacts. This helps to prevent these extreme values from skewing our analysis.
+
+Finally we a cleaned dataframe called df_cleaned. 
+
+We have excluded imputation on below features due to their nature and lack of relationship between other features that correlate directly to the individual data points (clients)
+
+- **These features are related to economic indicators and are commonly used in financial and economic analyses. Here's a brief explanation of each:**
+
+- emp.var.rate (Employment Variation Rate):
+
+This represents the quarterly indicator of the employment variation rate. It reflects changes in the level of employment over time. A positive value indicates an increase in employment, while a negative value indicates a decrease. This indicator is often used to assess the overall health of the job market and the economy's performance.
+
+- cons.price.idx (Consumer Price Index):
+
+This is a monthly indicator of the consumer price index. The consumer price index measures the average change over time in the prices paid by urban consumers for a basket of consumer goods and services. It is a key measure of inflation and is widely used by economists, policymakers, and investors to gauge changes in the cost of living and purchasing power.
+
+- cons.conf.idx (Consumer Confidence Index):
+
+This is a monthly indicator of the consumer confidence index. The consumer confidence index measures consumers' sentiment and outlook about the economy's future performance. It reflects consumers' assessments of current economic conditions, employment prospects, income expectations, and overall economic outlook. Changes in consumer confidence can influence consumer spending behavior, investment decisions, and overall economic activity.
+
+- euribor3m (EURIBOR 3 Month Rate):
+
+This represents the daily indicator of the EURIBOR 3-month rate. EURIBOR (Euro Interbank Offered Rate) is the average interest rate at which European banks offer to lend funds to one another in the interbank market. The 3-month rate is one of the most widely used benchmark interest rates in the eurozone. It is a key reference rate for various financial products, including mortgages, loans, and derivatives.
+
+- nr.employed (Number of Employees):
+
+This represents the quarterly indicator of the number of employees. It reflects changes in the total number of employed workers in the economy over time. This indicator is often used to assess labor market conditions, employment trends, and overall economic activity. These features provide insights into different aspects of the economy, including employment dynamics, price levels, consumer sentiment, and interest rate trends. Analysts often use these indicators to monitor economic performance, forecast future trends, and make informed decisions in various sectors, including finance, business, and policymaking.
