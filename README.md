@@ -2,7 +2,7 @@
 
 ### Project Overview:
 
-In this Project, our goal is to compare the performance of the classifiers we encountered in this section, namely K Nearest Neighbor, Logistic Regression, Decision Trees, and Support Vector Machines. We will utilize a dataset related to marketing bank products over the telephone.  
+In this Project, our goal is to compare the performance of the classifiers, namely K Nearest Neighbor, Logistic Regression, Decision Trees, and Support Vector Machines. We will utilize a dataset related to marketing bank products over the telephone.  
 
 ### Background:
 
@@ -396,4 +396,3 @@ Here we analyze the feature importance of a DecisionTreeClassifier model. By com
   ## Results, Conclusion, and NEXT STEPS
 
   The DecisionTree GridSearch Best Results section provides the optimal parameters identified through grid search for the DecisionTreeClassifier model. The best parameters include 'criterion' as 'entropy', 'max_depth' as 'None', 'max_features' as 'None', 'max_leaf_nodes' as 'None', 'min_samples_leaf' as '1', 'min_samples_split' as '2', and 'splitter' as 'best', yielding the best score of approximately 0.35. Moving forward, the next steps involve implementing these best parameters to enhance model performance. Additionally, it suggests removing features with extremely low importance scores and retaining only the top 12 features to simplify the model while maintaining predictive accuracy. Furthermore, it proposes increasing the threshold for False Negatives to improve the recall score, thereby reducing the likelihood of missing potential clients who may subscribe to a term deposit. In conclusion, the project has achieved an optimized DecisionTreeClassifier model for predicting client subscriptions to term deposits. The next steps for the business problem involve deploying this model in real-world scenarios and continuously evaluating its performance. Additionally, exploring other machine learning algorithms such as Random Forest, Gradient Boosting, or Neural Networks could further improve model accuracy and robustness, thereby providing valuable insights for the business to make informed decisions.
-  
