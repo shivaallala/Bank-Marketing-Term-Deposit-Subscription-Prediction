@@ -123,7 +123,7 @@ Overall, these preprocessing steps aim to ensure that the dataset is clean, prop
 We are storing our clean data in new copied dataset called df_cleaned to track and seperate cleaned and original sets. 
 
 
-###### Imputation treatment for Unknown values intuitively
+#### Imputation treatment for Unknown values intuitively
 
 Imputation treatment for unknown values intuitively addresses missing data in the dataset by making informed assumptions based on common sense or intuition.
 
@@ -139,7 +139,7 @@ For 'housing' and 'loan', the approach is to replace 'unknown' values with 'no'.
 Overall, these imputation treatments aim to handle missing values in a pragmatic way that aligns with intuitive assumptions about the data. By making reasonable guesses based on the distribution of existing data, the imputation process ensures that missing values are filled in a manner that reflects the underlying patterns in the dataset.
 
 
-###### Ordinal Encoding 'Education'
+#### Ordinal Encoding 'Education'
 
 - Mapping Education Levels to Ordinal Values:
 
@@ -158,7 +158,7 @@ After applying the ordinal encoding, the 'education' column now contains numeric
 Overall, the code snippet demonstrates a straightforward way to encode categorical variables with an ordinal relationship into numerical values, making them suitable for analysis and modeling purposes.
 
 
-###### New feature pre_contact from pdays
+#### New feature pre_contact from pdays
 
 By analyzing the distribution of the 'pdays' feature, which represents the number of days since the client was last contacted from a previous campaign. The percentage of clients not contacted prior to the current campaign is calculated and displayed, showing that approximately 96.32% of clients fall into this category. The subsequent plot visually illustrates this, with the count of clients having 'pdays' equal to 999 being significantly higher than all other unique values combined. Recognizing the imbalance and the limited insight provided by the actual number of days, a decision is made to transform the feature. A new binary feature called 'pre_contact' is created, indicating whether a client has been previously contacted or not. The original 'pdays' feature is then dropped from the dataset to streamline it. This transformation simplifies the representation of contact history, focusing on the presence or absence of previous contact rather than specific time intervals, which may not provide significant predictive value due to the dominance of '999' values.
 
