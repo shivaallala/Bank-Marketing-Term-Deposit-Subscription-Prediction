@@ -207,3 +207,144 @@ This represents the daily indicator of the EURIBOR 3-month rate. EURIBOR (Euro I
 - nr.employed (Number of Employees):
 
 This represents the quarterly indicator of the number of employees. It reflects changes in the total number of employed workers in the economy over time. This indicator is often used to assess labor market conditions, employment trends, and overall economic activity. These features provide insights into different aspects of the economy, including employment dynamics, price levels, consumer sentiment, and interest rate trends. Analysts often use these indicators to monitor economic performance, forecast future trends, and make informed decisions in various sectors, including finance, business, and policymaking.
+
+
+### Feature Engineering
+
+In this segment, we're preparing our data for modeling by encoding categorical variables and scaling numerical features. We're using a transformer called ColumnTransformer from scikit-learn to handle this preprocessing efficiently.
+
+First, we define the encoding strategies for different types of features:
+
+- One-Hot Encoding: This is applied to nominal categorical variables like 'job', 'marital', 'contact', 'poutcome', 'pre_contact', 'month', and 'day_of_week'. It transforms these variables into binary vectors, with each category represented by a binary feature.
+- Binary Encoding: This is used for binary variables such as 'default', 'housing', and 'loan'. It encodes these variables into a single binary feature, which is sufficient to represent their two possible states.
+- Standardization/Normalization: This is applied to numerical features like 'age', 'campaign', 'previous', etc. It scales these features to have a mean of 0 and a standard deviation of 1, which helps in ensuring that all features contribute equally to the model fitting process.
+
+![column transformer](./data/Images/column_transformer.png)
+
+We then use the ColumnTransformer to apply these transformations to our dataset. After fitting and transforming the feature data, we convert the transformed data back to a DataFrame for better readability. Additionally, we perform a train/test split on our data to create separate sets for training and testing our models. This helps evaluate the model's performance on unseen data. The data is split into an 80% train set and a 20% test set using the train_test_split function from scikit-learn. Overall, this segment ensures that our data is properly encoded and scaled, making it suitable for training machine learning models.
+
+### Baseline for Models
+
+In this section, we're establishing a baseline for our classification problem and building a simple logistic regression model to predict whether a client will subscribe to a term deposit based on the provided features.
+
+- Baseline Performance Calculation:
+
+We begin by calculating the baseline accuracy, which is the accuracy achieved by predicting the majority class for all instances in the test set. For our dataset, the target variable 'y' indicates whether a client subscribed ('yes') or not ('no') to a term deposit. By calculating the percentage of 'yes' and 'no' instances in the test set, we determine the majority class. This majority class proportion represents the baseline accuracy. A simple model that predicts the majority class for all instances would achieve this accuracy.
+
+- Simple Logistic Regression Model:
+
+We then proceed to build a logistic regression model, which is a basic yet commonly used algorithm for binary classification tasks. This model is fitted using the training data and incorporates preprocessing steps such as scaling numerical features and one-hot encoding categorical features using the defined pipeline.
+
+- Model Evaluation:
+
+After fitting the model, we predict the target variable ('y') for the test data using the trained model. The accuracy of the model is then calculated by comparing the predicted labels with the true labels from the test set. The accuracy score provides a measure of how well the model performs in correctly predicting the class labels.
+
+- Importance:
+
+Establishing a baseline accuracy is crucial as it provides a benchmark for evaluating the performance of our models. By comparing the accuracy of more complex models to the baseline accuracy, we can determine whether our models offer meaningful improvements in predictive power. Additionally, building a simple logistic regression model allows us to quickly assess the feasibility and performance of a basic classification approach before exploring more sophisticated algorithms.
+
+#### Simple Logistic Regression model
+
+![simple model](./data/Images/simple%20model.png)
+
+Using a pipeline, we streamline the preprocessing and modeling steps, allowing for consistent application of transformations and reducing the risk of data leakage. The pipeline is trained on the training dataset, and its performance is evaluated on the test set to determine its accuracy.
+
+![pipeline](./data/Images/pipeline.png)
+
+The logistic regression model achieves an accuracy of approximately 89.72%, establishing a baseline for future, more complex models. This baseline performance provides a reference point to assess the effectiveness of additional features, more sophisticated models, or other improvements.
+
+This approach emphasizes the importance of systematic data preprocessing, the utility of logistic regression as an initial model, and the value of establishing a baseline to guide further model.
+
+### Model Comparison
+
+In this comparison, we evaluate four classification models—Logistic Regression, K-Nearest Neighbors (KNN), Decision Tree, and Support Vector Machine (SVM)—to determine which performs best for a given dataset. The models are assessed based on their training time, training accuracy, test accuracy, and recall score on the test data. The goal is to find a model that offers a good balance of accuracy, recall, and efficiency.
+
+1. Model Definition and Preparation:
+
+  - The models are defined using their default settings.
+  - A preprocessing pipeline is created and applied to ensure the data is ready for training and evaluation.
+
+2. Model Training and Evaluation:
+
+  - Each model is fitted to the training data using a pipeline that includes preprocessing steps.
+  - The time taken to train each model is recorded.
+  - The accuracy of each model on the training and test datasets is calculated.
+  - The recall score on the test data is also computed to assess how well the model identifies positive instances.
+
+Results Compilation: The results for each model, including training time, training accuracy, test accuracy, and recall score, are compiled into a DataFrame for easy comparison.
+
+![model results](./data/Images/model%20results.png)
+
+- Conclusion
+
+  - Logistic Regression appears to be the most balanced model, offering good accuracy and low training time.
+  - KNN is the fastest to train and provides reasonable accuracy and a decent recall score.
+  - Decision Tree might be overfitting but has the highest recall, which can be valuable depending on the application.
+  - SVM provides high accuracy but at a significant computational cost.
+
+The choice of the best model depends on the specific requirements of the application. If training time and computational resources are a concern, KNN or Logistic Regression would be preferable. If the primary goal is to maximize recall and correctly identify as many positive instances as possible, the Decision Tree might be the best option despite its tendency to overfit. For high accuracy and more complex decision boundaries, SVM is suitable but should be used if computational resources are sufficient.
+
+#### Exploring KNN Model 
+
+In this evaluation, we explore the performance of a K-Nearest Neighbors (KNN) classification model using a preprocessing pipeline. The primary objective is to identify customers who are likely to say 'Yes' to term deposit subscriptions, with a focus on improving the recall score to capture more true positives.
+
+Steps Taken:
+
+1. Pipeline Setup:
+
+  - A preprocessing pipeline is defined to handle different types of data:
+  - Numerical features are standardized using StandardScaler.
+  - Categorical features are encoded using OneHotEncoder.
+  - The KNeighborsClassifier is used as the classification model in the pipeline.
+
+2. Model Training and Prediction:
+
+  - The pipeline is fitted to the training data.
+  - Predictions are made on the test data.
+
+3. Confusion Matrix:
+
+  - The confusion matrix is generated to visualize the performance of the model.
+  - The matrix is plotted as a heatmap for better visualization.
+
+![confusion matrix knn](./data/Images/confusion%20matrix%20knn.png)
+
+
+4. Recall Score:
+
+  - The recall score is calculated to evaluate how well the model identifies true positive cases (customers likely to subscribe).
+
+5. Results:
+
+- Confusion Matrix:
+
+  - The confusion matrix shows the distribution of true positives, true negatives, false positives, and false negatives.
+  - It provides a detailed view of the model's performance on the test data.
+
+- Recall Score:
+
+  - The recall score is found to be 0.2834.
+  - This score indicates that the model captures approximately 28.34% of the actual 'Yes' cases in the test set.
+
+- Interpretation:
+  - The recall score is relatively low, suggesting that the model is not performing well in identifying customers who will subscribe to the term deposit.
+  - Since the objective is to minimize inaccurate predictions for 'Yes' values in the target feature, improving the recall score is crucial.
+  - Low recall indicates that many potential subscribers are being missed by the model.
+
+6. Conclusion:
+
+The KNN model, as configured, does not meet the objective of accurately capturing potential subscribers due to its low recall score. Explore different models and tuning their hyperparameters to improve recall.Consider techniques such as oversampling, undersampling, or using more complex models to enhance performance. The goal is to enhance the model's ability to correctly identify 'Yes' cases while maintaining a reasonable balance with other performance metrics like accuracy and precision.
+
+### Improving the Models
+
+Our objective is to enhance the performance of various models by reducing false negatives and improving recall scores. This involves several steps, including feature engineering, hyperparameter tuning, and adjusting performance metrics. We have considered four models: Logistic Regression, KNN, Decision Tree, and SVM. Each model was paired with a specific grid of hyperparameters to tune, aiming to optimize the recall score through a preprocessing pipeline that standardizes numerical features and encodes categorical features. GridSearchCV was used to perform hyperparameter tuning, focusing on optimizing recall.
+
+![results df](./data/Images/results%20table.png)
+
+The results showed that the Decision Tree model had the highest recall score, indicating it is better at capturing true positives. However, it also showed signs of overfitting, with very high training accuracy compared to test accuracy. Logistic Regression and SVM offered a balanced performance between training time and accuracy, though their recall scores were moderate. KNN provided a higher recall but at the cost of slightly lower test accuracy. These findings highlight that while some models perform well in accuracy, their ability to recall relevant cases, which is critical for our objective, still needs improvement.
+
+![results plot](./data/Images/results%20plot.png)
+
+![training time](./data/Images/training%20time%20plot.png)
+
+To further improve our models, we need to delve deeper into feature engineering and exploration. For instance, transforming features such as 'pdays' into a new feature 'pre_contact' can provide more meaningful insights. Additionally, we need to conduct a detailed analysis of the Decision Tree model to understand the importance of features and their correlations better. This will help us refine the model by potentially removing irrelevant features and focusing on those that directly impact the client's behavior. Further hyperparameter tuning, exploring more extensive grids, and considering advanced techniques like ensemble methods, can also contribute to enhancing our models' performance. By concentrating on these strategies, we aim to improve the models' recall and their ability to accurately identify potential subscribers.
