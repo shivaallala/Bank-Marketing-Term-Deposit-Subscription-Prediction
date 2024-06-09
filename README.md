@@ -349,3 +349,51 @@ The results showed that the Decision Tree model had the highest recall score, in
 
 To further improve our models, we need to delve deeper into feature engineering and exploration. For instance, transforming features such as 'pdays' into a new feature 'pre_contact' can provide more meaningful insights. Additionally, we need to conduct a detailed analysis of the Decision Tree model to understand the importance of features and their correlations better. This will help us refine the model by potentially removing irrelevant features and focusing on those that directly impact the client's behavior. Further hyperparameter tuning, exploring more extensive grids, and considering advanced techniques like ensemble methods, can also contribute to enhancing our models' performance. By concentrating on these strategies, we aim to improve the models' recall and their ability to accurately identify potential subscribers.
 
+### Extensive Model GridSearch
+
+To improve our models' recall scores, we performed an extensive GridSearch on three models: Logistic Regression, KNN, and Decision Tree. We aimed to optimize each model's hyperparameters to better capture true positives while maintaining overall performance.
+
+Logistic Regression: The best-performing hyperparameter for Logistic Regression was found to be C=8.01. Despite this optimization, the model achieved a modest recall score of 0.2139 on the test set. The training and test accuracies were 0.9009 and 0.8971, respectively, indicating a well-fitted model but with a recall score that still needs improvement.
+
+KNN: For the KNN model, the best parameter was n_neighbors=1. This model showed a significant increase in recall, achieving a score of 0.3348 on the test set. However, this came at the cost of reduced test accuracy, which was 0.8496 compared to a very high training accuracy of 0.9949, suggesting potential overfitting.
+
+Decision Tree: The optimal hyperparameter for the Decision Tree was max_depth=50. This model had the highest recall score in cross-validation (0.3501) and on the test set (0.3326). The training accuracy was 0.9951, and the test accuracy was 0.8416, again indicating overfitting similar to the KNN model.
+
+By omitting SVM from our grid search, we focused our efforts on exploring hyperparameter optimization for models that offer a more favorable balance between computational efficiency and performance. This decision allowed us to prioritize models that could be trained and tuned more efficiently, while still achieving reasonable results in terms of accuracy and recall.
+
+Overall, the Decision Tree and KNN models showed better recall scores compared to Logistic Regression, but both exhibited signs of overfitting, with very high training accuracies and lower test accuracies. This suggests that while these models are capturing true positives more effectively, their generalization to unseen data might be limited. Further refinement, including additional feature engineering and regularization techniques, may be necessary to improve their performance and generalization ability.
+
+![Results for Extensive training](./data/Images/results%20extensive%20model.png)
+
+We visualized these results, highlighting the trade-offs between accuracy and recall across the different models. While the Decision Tree and KNN models offered better recall, the Logistic Regression model maintained a better balance between training and test accuracies, though with lower recall. This suggests that while we have made progress in optimizing for recall, there is still room for improvement, particularly in ensuring the models generalize well to new data.
+
+#### DecisionTreeClassifier Model Improvement
+
+The analysis focuses on improving the DecisionTreeClassifier model, which demonstrated a higher recall score compared to other models. The grid search was conducted to find the best hyperparameters for the Decision Tree model, aiming to enhance its predictive performance further. The best parameters obtained from the grid search were {'classifier__criterion': 'entropy', 'classifier__max_depth': None, 'classifier__max_features': None, 'classifier__max_leaf_nodes': None, 'classifier__min_samples_leaf': 1, 'classifier__min_samples_split': 2, 'classifier__splitter': 'best'}, with a corresponding best recall score of 0.3506.
+
+To continue improving the model, the next steps outlined include:
+
+Feature Selection: Utilizing the feature importance scores obtained from the Decision Tree model, features with extremely low importance scores will be removed. Only the top 12 features will be retained for further analysis and model refinement.
+Recall Improvement: By increasing the threshold for False Negatives, the model aims to improve its recall score. This adjustment is particularly important in scenarios where capturing positive instances (subscription to a term deposit) is prioritized over precision.
+The decision to focus on the Decision Tree model was driven by its relatively higher recall score compared to other models in the initial analysis. Recall is a critical metric in the context of the problem at hand, which involves identifying clients likely to subscribe to a term deposit. By prioritizing recall, the model aims to minimize false negatives, ensuring that a higher proportion of actual positive cases are correctly identified. Thus, refining the Decision Tree model offers a promising avenue for enhancing predictive performance and achieving the project's objectives.
+
+#### DecisionTreeClassifier Feature Importance
+
+Here we analyze the feature importance of a DecisionTreeClassifier model. By computing the importance scores for each feature, the snippet identifies the most influential predictors in determining whether a client subscribes to a term deposit. Utilizing the feature_importances_ attribute of the trained model, it creates a DataFrame containing feature names and their corresponding importance scores, sorted in descending order. Through visualization with a horizontal bar plot, the relative significance of each feature is depicted, aiding in understanding their impact on the model's predictions. This feature importance analysis is crucial for feature selection, model optimization, and gaining insights into data relationships, ultimately enhancing model performance and interpretability.
+
+![Feature importance](./data/Images/feature%20importance%20list.png)
+
+![Feature Importance](./data/Images/feature%20importance%20plot.png)
+
+- Interpretation:
+
+  - The feature importance scores indicate the relative importance of each feature in predicting the target variable (in this case, whether a client subscribed to a term deposit).
+  - Features with higher importance scores are considered more influential in making predictions, while features with lower importance scores are less influential.
+  - For example, the most important feature is 'age' with an importance score of 0.174173, followed by 'nr.employed' (number of employees) with an importance score of 0.157970.
+  - Categorical features such as job, marital status, contact type, etc., also contribute to the model's predictions, as indicated by their respective importance scores.
+  - Some features may have very low importance scores, indicating that they have minimal impact on the model's predictions.
+
+  ## Results, Conclusion, and NEXT STEPS
+
+  The DecisionTree GridSearch Best Results section provides the optimal parameters identified through grid search for the DecisionTreeClassifier model. The best parameters include 'criterion' as 'entropy', 'max_depth' as 'None', 'max_features' as 'None', 'max_leaf_nodes' as 'None', 'min_samples_leaf' as '1', 'min_samples_split' as '2', and 'splitter' as 'best', yielding the best score of approximately 0.35. Moving forward, the next steps involve implementing these best parameters to enhance model performance. Additionally, it suggests removing features with extremely low importance scores and retaining only the top 12 features to simplify the model while maintaining predictive accuracy. Furthermore, it proposes increasing the threshold for False Negatives to improve the recall score, thereby reducing the likelihood of missing potential clients who may subscribe to a term deposit. In conclusion, the project has achieved an optimized DecisionTreeClassifier model for predicting client subscriptions to term deposits. The next steps for the business problem involve deploying this model in real-world scenarios and continuously evaluating its performance. Additionally, exploring other machine learning algorithms such as Random Forest, Gradient Boosting, or Neural Networks could further improve model accuracy and robustness, thereby providing valuable insights for the business to make informed decisions.
+  
